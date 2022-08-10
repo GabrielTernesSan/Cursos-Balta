@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaltaDataAccess", "BaltaDataAccess.csproj", "{F61F73B3-CD7E-4471-9F86-08FFBD45DAA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F61F73B3-CD7E-4471-9F86-08FFBD45DAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61F73B3-CD7E-4471-9F86-08FFBD45DAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61F73B3-CD7E-4471-9F86-08FFBD45DAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61F73B3-CD7E-4471-9F86-08FFBD45DAA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F1C24B1-12A3-43CB-87E7-1D57F3D9972F}
+	EndGlobalSection
+EndGlobal
