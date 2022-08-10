@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using BaltaDataAccess.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -18,8 +19,9 @@ namespace BaltaDataAccess
                 // CreateManyCategory(connection);
                 // UpdateCategory(connection);
                 // DeleteCategory(connection);
-                ListCategories(connection);
+                // ListCategories(connection);
                 // GetCategory(connection);
+                ExecuteProcedure(connection);
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -159,6 +161,23 @@ namespace BaltaDataAccess
             });
 
             Console.WriteLine($"{rows} - linhas inseridas");
+        }
+
+        static void ExecuteProcedure(SqlConnection connection)
+        {
+            var procedure = "[spDeleteStudent]";
+
+            var parameters = new
+            {
+                StudentId = "9ea8e017-3a5e-4b5e-a4f6-9c2739362c9c"
+            };
+
+            var rows = connection.Execute(
+                procedure, 
+                parameters, 
+                commandType: CommandType.StoredProcedure);
+
+            Console.WriteLine($"{rows} - linhas afetadas");
         }
     }
 }
