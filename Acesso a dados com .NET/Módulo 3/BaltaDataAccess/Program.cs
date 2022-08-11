@@ -21,7 +21,8 @@ namespace BaltaDataAccess
                 // DeleteCategory(connection);
                 // ListCategories(connection);
                 // GetCategory(connection);
-                ExecuteProcedure(connection);
+                // ExecuteProcedure(connection);
+                ExecuteReadProcedure(connection);
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -178,6 +179,28 @@ namespace BaltaDataAccess
                 commandType: CommandType.StoredProcedure);
 
             Console.WriteLine($"{rows} - linhas afetadas");
+        }
+
+        static void ExecuteReadProcedure(SqlConnection connection)
+        {
+            var procedure = "[spGetCoursesByCategory]";
+
+            var parameters = new
+            {
+                CategoryId = "09ce0b7b-cfca-497b-92c0-3290ad9d5142"
+            };
+
+            // Retorna um array de cursos do tipo 'dynamic'
+            var courses = connection.Query(
+                procedure,
+                parameters,
+                commandType: CommandType.StoredProcedure);
+            // Então nós podemos fazer um foreach
+            foreach(var course in courses)
+            {
+                // Por ser um 'dynamic' não temos acesso as propriedades
+                Console.WriteLine(course.Id);
+            }
         }
     }
 }
