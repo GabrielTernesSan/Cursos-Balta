@@ -18,6 +18,12 @@ namespace Blog
         {
             using(var connection = new SqlConnection(CONNECTION_STRING))
             {
+                /* 
+                 * O Dapper.Contrib pluraliza as classes, entao ele 
+                 * procurou a tabela "Users" e deu erro. Para corrigir isso
+                 * adicionamos uma annotation na classe [Table] da Dapper.Contrib.Extensions
+                 * e não da System.ComponentModel.DataAnnotations.Schema.
+                 */
                 var users = connection.GetAll<User>();
 
                 foreach(var user in users)
