@@ -29,7 +29,9 @@ namespace BaltaDataAccess
                 // OneToMany(connection);
                 // QueryMultiple(connection);
                 // SelectIn(connection);
-                Like(connection, "api");
+                // Like(connection, "api");
+                Transaction(connection);
+
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -40,6 +42,7 @@ namespace BaltaDataAccess
                 Console.WriteLine($"{category.Id} - {category.Title}");
             }
         }
+
         static void GetCategory(SqlConnection connection)
         {
             var category = connection
@@ -53,6 +56,7 @@ namespace BaltaDataAccess
 
             Console.WriteLine($"{category.Id} - {category.Title}");
         }
+
         static void CreateCategory(SqlConnection connection)
         {
             var categoria = new Category();
@@ -89,6 +93,7 @@ namespace BaltaDataAccess
 
             Console.WriteLine($"{rows} - linhas inseridas");
         }
+
         static void UpdateCategory(SqlConnection connection)
         {
             var updateQuery = "UPDATE [Category] SET [Title]=@Title WHERE [Id]=@Id";
@@ -101,6 +106,7 @@ namespace BaltaDataAccess
 
             Console.WriteLine($"{rows} - Registros atualizados;");
         }
+
         static void DeleteCategory(SqlConnection connection)
         {
             var deleteCategory = "DELETE [Category] WHERE [Id] = @Id";
@@ -398,6 +404,53 @@ namespace BaltaDataAccess
             {
                 Console.WriteLine(item.Title);
             }
+        }
+
+        static void Transaction(SqlConnection connection)
+        {
+            var categoria = new Category();
+            categoria.Id = Guid.NewGuid();
+            categoria.Title = "Minha categoria que não quero";
+            categoria.Url = "Não salva";
+            categoria.Summary = "não";
+            categoria.Order = 8;
+            categoria.Description = "Categoria destinada a serviços do AWS";
+            categoria.Featured = false;
+
+            var insertSql
+                = @"INSERT INTO 
+                    [Category]
+                        VALUES(
+                                @Id,
+                                @Title,
+                                @Url,
+                                @Summary,
+                                @Order,
+                                @Description,
+                                @Featured)";
+
+            connection.Open();
+           using(var transaction = connection.BeginTransaction())
+            {
+                var rows = connection.Execute(insertSql, new
+                {
+                    categoria.Id,
+                    categoria.Title,
+                    categoria.Url,
+                    categoria.Summary,
+                    categoria.Order,
+                    categoria.Description,
+                    categoria.Featured
+                }, transaction);
+                
+                //transaction.Commit();
+
+                // Desfaz as alterações
+                transaction.Rollback();
+            
+                Console.WriteLine($"{rows} - linhas inseridas");
+            }
+
         }
     }
 }
