@@ -28,7 +28,8 @@ namespace BaltaDataAccess
                 // OneToOne(connection);
                 // OneToMany(connection);
                 // QueryMultiple(connection);
-                SelectIn(connection);
+                // SelectIn(connection);
+                Like(connection, "api");
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -371,6 +372,29 @@ namespace BaltaDataAccess
             });
 
             foreach(var item in items)
+            {
+                Console.WriteLine(item.Title);
+            }
+        }
+
+        static void Like(SqlConnection connection, string term)
+        {
+            var query = @"
+                SELECT 
+                    * 
+                FROM 
+                    [Course]
+                WHERE 
+                    [Title] 
+                LIKE
+                    @exp";
+
+            var items = connection.Query<Course>(query, new
+            {
+                exp = $"%{term}%"
+            });
+
+            foreach (var item in items)
             {
                 Console.WriteLine(item.Title);
             }
