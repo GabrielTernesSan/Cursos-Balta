@@ -24,7 +24,7 @@ namespace BaltaDataAccess
                 // ExecuteProcedure(connection);
                 // ExecuteReadProcedure(connection);
                 // ExecuteScalar(connection);
-                ReadView(connection);
+                // ReadView(connection);
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -250,6 +250,24 @@ namespace BaltaDataAccess
             foreach(var course in courses)
             {
                 Console.WriteLine($"{course.Id} - {course.Title}");
+            }
+        }
+
+        static void OneToOne(SqlConnection connection)
+        {
+            var sql = @"
+                    SELECT 
+                        * 
+                    FROM 
+                        [CareerItem] 
+                        INNER JOIN [Course] 
+                        ON [CareerItem].[CourseId] = [Course].[Id]";
+
+            var items = connection.Query(sql);
+
+            foreach (var item in items)
+            {
+                Console.WriteLine();
             }
         }
     }
