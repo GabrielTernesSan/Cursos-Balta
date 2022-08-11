@@ -22,7 +22,8 @@ namespace BaltaDataAccess
                 // ListCategories(connection);
                 // GetCategory(connection);
                 // ExecuteProcedure(connection);
-                ExecuteReadProcedure(connection);
+                // ExecuteReadProcedure(connection);
+                ExecuteScalar(connection);
             }
         }
         static void ListCategories(SqlConnection connection)
@@ -201,6 +202,43 @@ namespace BaltaDataAccess
                 // Por ser um 'dynamic' não temos acesso as propriedades
                 Console.WriteLine(course.Id);
             }
+        }
+
+        static void ExecuteScalar(SqlConnection connection)
+        {
+            var categoria = new Category();
+            categoria.Title = "Kafka";
+            categoria.Url = "kafka";
+            categoria.Summary = "Kafka";
+            categoria.Order = 11;
+            categoria.Description = "Categoria destinada a serviços do Kafka";
+            categoria.Featured = true;
+
+            var insertSql
+                = @"
+                    INSERT INTO 
+                        [Category]
+                    OUTPUT inserted.[Id]
+                            VALUES(
+                                    NEWID(),
+                                    @Title,
+                                    @Url,
+                                    @Summary,
+                                    @Order,
+                                    @Description,
+                                    @Featured)";
+            // O 'ExecuteScalar' serve para retornar valores especificos de uma procedure
+            var id = connection.ExecuteScalar<Guid>(insertSql, new
+            {
+                categoria.Title,
+                categoria.Url,
+                categoria.Summary,
+                categoria.Order,
+                categoria.Description,
+                categoria.Featured
+            });
+
+            Console.WriteLine($"A categoria inserida foi :{id}");
         }
     }
 }
