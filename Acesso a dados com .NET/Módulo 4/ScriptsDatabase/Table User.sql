@@ -17,6 +17,5 @@ CREATE TABLE [User] (
 )
 
 -- Para pesquisa
--- NONCLUSTERED -> 
 CREATE NONCLUSTERED INDEX [IX_User_Email] ON [User]([Email])
 CREATE NONCLUSTERED INDEX [IX_User_Slug] ON [User]([Slug])
