@@ -13,21 +13,19 @@ namespace Blog
 
         static void Main(string[] args)
         {
-            // ReadUsers();
+             ReadUsers();
             // ReadUser(); 
             // CreateUser();
             // UpdateUser();
-            DeleteUser();
+            // DeleteUser();
         }
         public static void ReadUsers()
         {
             var repository = new UserRepository();
-            var users = repository.Get();
+            var users = repository.Get(CONNECTION_STRING);
 
             foreach(var user in users)
-            {
                 Console.WriteLine(user.Name);
-            }
         }
 
         public static void ReadUser()

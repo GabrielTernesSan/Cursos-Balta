@@ -6,12 +6,13 @@ namespace Blog.Repository
 {
     public class UserRepository
     {
-        public IEnumerable<User> Get()
-        {
-            using (var connection = new SqlConnection(""))
-            {
-                return connection.GetAll<User>();
-            }
-        }
+
+        private SqlConnection _connection = new SqlConnection("");
+
+        public IEnumerable<User> Get() => _connection.GetAll<User>();
+
+        public User GetById(int id) => _connection.Get<User>(id);
+
+        public void Create(User user) => _connection.Insert<User>(user);
     }
 }
