@@ -13,32 +13,33 @@ namespace Blog
 
         static void Main(string[] args)
         {
-             ReadUsers();
-            // ReadUser(); 
-            // CreateUser();
-            // UpdateUser();
-            // DeleteUser();
+            var connection = new SqlConnection(CONNECTION_STRING);
+            connection.Open();
+
+             ReadUsers(connection);
+            // ReadUser(connection); 
+            // CreateUser(connection);
+            // UpdateUser(connection);
+            // DeleteUser(connection);
+            connection.Close();
         }
-        public static void ReadUsers()
+        public static void ReadUsers(SqlConnection connection)
         {
-            var repository = new UserRepository();
-            var users = repository.Get(CONNECTION_STRING);
+            var repository = new UserRepository(connection);
+            var users = repository.Get();
 
             foreach(var user in users)
                 Console.WriteLine(user.Name);
         }
 
-        public static void ReadUser()
+        public static void ReadUser(SqlConnection connection)
         {
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                var user = connection.Get<User>(1);
-
-                Console.WriteLine(user.Name);
-            }
+            var repository = new UserRepository(connection);
+            var user = repository.GetById(1);
+            Console.WriteLine(user.Name);
         }
 
-        public static void CreateUser()
+        public static void CreateUser(SqlConnection connection)
         {
             var user = new User()
             {
@@ -49,13 +50,9 @@ namespace Blog
                 PasswordHash = "HASH",
                 Slug = "equipe-balta"
             };
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                // Retorna um long
-                connection.Insert<User>(user);
-
-                Console.WriteLine("Cadastro realizado com sucesso");
-            }
+            var repository = new UserRepository(connection);
+            repository.Create(user);
+            Console.WriteLine("Usuário criado com sucesso");
         }
 
         public static void UpdateUser()
