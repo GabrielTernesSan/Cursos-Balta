@@ -1,5 +1,6 @@
 ﻿
 using Blog.Models;
+using Blog.Repository;
 using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 
@@ -20,20 +21,12 @@ namespace Blog
         }
         public static void ReadUsers()
         {
-            using(var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                /* 
-                 * O Dapper.Contrib pluraliza as classes, entao ele 
-                 * procurou a tabela "Users" e deu erro. Para corrigir isso
-                 * adicionamos uma annotation na classe [Table] da Dapper.Contrib.Extensions
-                 * e não da System.ComponentModel.DataAnnotations.Schema.
-                 */
-                var users = connection.GetAll<User>();
+            var repository = new UserRepository();
+            var users = repository.Get();
 
-                foreach(var user in users)
-                {
-                    Console.WriteLine(user.Name);
-                }
+            foreach(var user in users)
+            {
+                Console.WriteLine(user.Name);
             }
         }
 
