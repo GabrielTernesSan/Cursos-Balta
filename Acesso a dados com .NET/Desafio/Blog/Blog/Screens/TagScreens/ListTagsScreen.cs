@@ -1,10 +1,5 @@
 ﻿using Blog.Models;
 using Blog.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Screens.TagScreens
 {
@@ -17,6 +12,7 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine("--------------");
             List();
             Console.ReadKey();
+            MenuTagScreen.Load();
         }
 
         private static void List()
