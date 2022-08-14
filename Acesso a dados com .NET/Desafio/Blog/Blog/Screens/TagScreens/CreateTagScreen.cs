@@ -1,10 +1,5 @@
 ﻿using Blog.Models;
 using Blog.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Screens.TagScreens
 {
@@ -13,7 +8,7 @@ namespace Blog.Screens.TagScreens
         public static void Load()
         {
             Console.Clear();
-            Console.WriteLine("Nova tags");
+            Console.WriteLine("Nova tag");
             Console.WriteLine("--------------");
             Console.WriteLine("Name: ");
             var name = Console.ReadLine();

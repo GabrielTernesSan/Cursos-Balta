@@ -18,7 +18,7 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine("1 - Listar as tags");
             Console.WriteLine("2 - Cadastrar tag");
             Console.WriteLine("3 - Atualizar tag");
-            Console.WriteLine("3 - Deletar tag");
+            Console.WriteLine("4 - Deletar tag");
             Console.WriteLine();
             Console.WriteLine();
             var option = short.Parse(Console.ReadLine());
