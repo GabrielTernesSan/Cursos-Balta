@@ -1,0 +1,26 @@
+﻿
+using Microsoft.Data.SqlClient;
+
+namespace Blog
+{
+    class Program
+    {
+
+        private const string CONNECTION_STRING = "Server=localhost,1433;Database=Blog;User ID=sa;Password=G@abriel613390;TrustServerCertificate=True;";
+
+        static void Main(string[] args)
+        {
+            var connection = new SqlConnection(CONNECTION_STRING);
+            connection.Open();
+
+            //ReadUsers(connection);
+            //ReadRoles(connection);
+            //ReadTags(connection);
+            //CreateUser(connection);
+            //ReadUsersWithRoles(connection);
+
+            connection.Close();
+            Console.ReadKey();
+        }
+    }
+}
