@@ -1,6 +1,7 @@
 ﻿
 using Blog.Data;
 using Blog.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog
 {
@@ -32,24 +33,27 @@ namespace Blog
                 // Não executa a Query
                 // Só seria executada quando chamada no foreach
 
-                
-                var tags1 = context // Chegaria no contexto
-                    .Tags         // Chegaria nas tags
-                    .ToList()    // Executaria um SELECT em todas as tags
-                    .Where(x => x.Name.Contains(".NET")); // E filtraria isso em memória
-
-                var tags2 = context // Chegaria no contexto
-                    .Tags         // Chegaria nas tags
-                    .Where(x => x.Name.Contains(".NET")) // Filtra primeiro
-                    .ToList(); // ToList() sempre por último
-
-                // O ToList() força a execução da Query
-                //var tags = context.Tags.ToList();
+                var tags = context
+                    .Tags
+                    // Desabilita o Tracking para a sua consulta
+                    // ou seja, não salva as entidades retornadas em cache
+                    .AsNoTracking()
+                    .ToList();
 
                 foreach (var tag in tags)
                 {
                     Console.WriteLine($"{tag.Name} - {tag.Slug}");
                 }
+
+                // DELETE E UPDATE SEMPRE SEM AsNoTracking
+
+                //var tag = context
+                //    .Tags
+                //    .AsNoTracking() // Remover
+                //    .FirstOrDefault(x => x.Id == 1);
+
+                //tag.Name = "Git";
+                //tag.Slug = "GitHub";
             }
         }
     }
