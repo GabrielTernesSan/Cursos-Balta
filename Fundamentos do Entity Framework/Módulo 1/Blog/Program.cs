@@ -33,17 +33,17 @@ namespace Blog
                 // Não executa a Query
                 // Só seria executada quando chamada no foreach
 
-                var tags = context
-                    .Tags
-                    // Desabilita o Tracking para a sua consulta
-                    // ou seja, não salva as entidades retornadas em cache
-                    .AsNoTracking()
-                    .ToList();
+                //var tags = context
+                //    .Tags
+                //    // Desabilita o Tracking para a sua consulta
+                //    // ou seja, não salva as entidades retornadas em cache
+                //    .AsNoTracking()
+                //    .ToList();
 
-                foreach (var tag in tags)
-                {
-                    Console.WriteLine($"{tag.Name} - {tag.Slug}");
-                }
+                //foreach (var tag in tags)
+                //{
+                //    Console.WriteLine($"{tag.Name} - {tag.Slug}");
+                //}
 
                 // DELETE E UPDATE SEMPRE SEM AsNoTracking
 
@@ -54,6 +54,15 @@ namespace Blog
 
                 //tag.Name = "Git";
                 //tag.Slug = "GitHub";
+
+                var tag = context
+                    .Tags
+                    .AsNoTracking()
+                    // Executa a Query também
+                    //.FirstOrDefault(x => x.Id == 1); pega o primeiro mesmo com Ids repetidos
+                    .SingleOrDefault(x => x.Id == 1); // se tiver mais de um com o mesmo Id dá erro
+
+                Console.WriteLine(tag?.Name); // ? se vier nulo não vai dar erro
             }
         }
     }
