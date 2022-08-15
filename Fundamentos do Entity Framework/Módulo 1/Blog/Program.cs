@@ -16,11 +16,16 @@ namespace Blog
                 // Para ir para o banco de fato precisamos dar um SaveChanges()
                 //context.SaveChanges();
 
-                var tag = context.Tags.FirstOrDefault(x => x.Id == 4);
-                tag.Name = "Git";
-                tag.Slug = "GitHub";
+                //var tag = context.Tags.FirstOrDefault(x => x.Id == 4);
+                //tag.Name = "Git";
+                //tag.Slug = "GitHub";
 
-                context.Update(tag);
+                //context.Update(tag);
+                //context.SaveChanges();
+
+                var tag = context.Tags.FirstOrDefault(x => x.Id == 4);
+
+                context.Remove(tag);
                 context.SaveChanges();
             }
         }
