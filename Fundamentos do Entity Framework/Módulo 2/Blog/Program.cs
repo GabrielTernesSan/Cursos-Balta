@@ -53,12 +53,14 @@ namespace Blog
             var posts = context
                 .Posts
                 .AsNoTracking()
-                .Include(x => x.Author)
+                .Include(x => x.Author) // propriedade do post
+                .Include(x => x.Category)
+                //.ThenInclude() pega item do filho (propriedade da Category) SUBSELECT
                 .OrderByDescending(x => x.LastUpdateDate)
                 .ToList();
 
             foreach (var post in posts)
-                Console.WriteLine($"{post.Title} escrito por {post.Author?.Name}");
+                Console.WriteLine($"{post.Title} escrito por {post.Author?.Name} em {post.Category?.Name}");
         }
     }
 }
