@@ -12,7 +12,7 @@ namespace Blog.Mappings
             builder.ToTable("Category");
 
             // Chave primária
-            builder.HasKey(c => c.Id);
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd()
@@ -30,6 +30,10 @@ namespace Blog.Mappings
                 .HasColumnName("Slug")
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(80);
+
+            // Índices
+            builder.HasIndex(x => x.Slug, "IX_Category_Slug")
+                .IsUnique();
         }
     }
 }
