@@ -8,7 +8,7 @@ namespace Blog.Mappings
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            // Tabela
+            // Tabela 
             builder.ToTable("Category");
         }
     }
