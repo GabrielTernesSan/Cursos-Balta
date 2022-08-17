@@ -10,6 +10,13 @@ namespace Blog.Mappings
         {
             // Tabela 
             builder.ToTable("Category");
+
+            // Chave primária
+            builder.HasKey(c => c.Id);
+
+            builder.Property(x => x.Id)
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn();
         }
     }
 }
