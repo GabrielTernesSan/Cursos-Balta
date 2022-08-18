@@ -7,7 +7,8 @@ namespace Blog
     {
         static void Main(string[] args)
         {
-
+            // Gerar Script(Migration) da tabela mais recente
+            // Script-migration
         }
     }
 }
