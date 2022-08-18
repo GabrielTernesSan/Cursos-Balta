@@ -12,6 +12,8 @@
         public Category Category { get; set; }
         public User Author { get; set; }
 
+        // Modificador de acesso que permite que seja sobreescrito
+        //public virtual List<Tag> Tags { get; set; }
         public List<Tag> Tags { get; set; }
     }
 }
