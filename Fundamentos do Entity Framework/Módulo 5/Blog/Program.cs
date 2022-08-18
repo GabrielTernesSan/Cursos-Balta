@@ -6,11 +6,21 @@ namespace Blog
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             using var context = new BlogDataContext();
-            var post = context.Posts.FirstOrDefault(x => x.Id == 1);
-            var post2 = context.Posts.AsNoTracking();
+
+            var post = await context.Posts.ToListAsync();
+            var tags = await context.Users.ToListAsync();
+
+            var posts = await GetPosts(context);
+
+            Console.WriteLine("Teste");
+        }
+
+        public static async Task<List<Post>> GetPosts(BlogDataContext context)
+        {
+            return await context.Posts.ToListAsync();
         }
     }
 }
