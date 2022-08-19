@@ -9,18 +9,12 @@ namespace Blog
         static async Task Main(string[] args)
         {
             using var context = new BlogDataContext();
-            var posts = context.Posts
-                .Include(x => x.Author)
-                // Evitar ao máximo, pq ele faz um subselect
-                    .ThenInclude(x => x.Roles) // Está dentro de User
-                .Include(x => x.Category);
+
+            var posts = context.PostWithTagsCount.ToList();
 
             foreach (var post in posts)
             {
-                foreach(var tag in post.Tags)
-                {
-
-                }
+                Console.WriteLine($"{post.Name}, {post.Count}");
             }
 
             Console.WriteLine("Teste");
