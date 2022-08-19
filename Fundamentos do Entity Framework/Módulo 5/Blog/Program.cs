@@ -9,23 +9,21 @@ namespace Blog
         static async Task Main(string[] args)
         {
             using var context = new BlogDataContext();
-            var posts = GetPosts(context, 0, 25);
-            //var posts = GetPosts(context, 25, 25);
-            //var posts = GetPosts(context, 50, 25);
-            //var posts = GetPosts(context, 75, 25);
+            var posts = context.Posts
+                .Include(x => x.Author)
+                // Evitar ao máximo, pq ele faz um subselect
+                    .ThenInclude(x => x.Roles) // Está dentro de User
+                .Include(x => x.Category);
+
+            foreach (var post in posts)
+            {
+                foreach(var tag in post.Tags)
+                {
+
+                }
+            }
 
             Console.WriteLine("Teste");
-        }
-
-        public static List<Post> GetPosts(BlogDataContext context, int skip = 0, int take = 25)
-        {
-            var posts = context
-                .Posts
-                .AsNoTracking()
-                .Skip(skip)
-                .Take(take)
-                .ToList();
-            return posts;
         }
     }
 }
