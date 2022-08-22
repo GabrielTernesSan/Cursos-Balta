@@ -16,8 +16,14 @@ namespace ToDo.Controllers
         }
 
         [HttpGet]
-        //[HttpGet("/banana")] Não precisa de [Route]
-        //[Route("/banana")]
         public List<ToDoModel> Get() => _appDbContext.ToDos.ToList();
+
+        [HttpPost]
+        public ToDoModel Post([FromBody] ToDoModel model)
+        {
+            _appDbContext.ToDos.Add(model);
+            _appDbContext.SaveChanges();
+            return model;
+        }
     }
 }
