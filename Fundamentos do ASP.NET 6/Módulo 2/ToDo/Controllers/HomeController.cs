@@ -16,30 +16,42 @@ namespace ToDo.Controllers
         }
 
         [HttpGet]
-        public List<ToDoModel> Get() => _appDbContext.ToDos.ToList();
+        public IActionResult Get()
+        {
+            return Ok(_appDbContext.ToDos.ToList());
+        }
+
 
         [HttpGet("{id:int}")]
-        public ToDoModel GetById([FromRoute] int id)
+        public IActionResult GetById([FromRoute] int id)
         {
-            return _appDbContext.ToDos.FirstOrDefault(x => x.Id == id);
+            var tarefa = _appDbContext.ToDos.FirstOrDefault(x => x.Id == id);
+
+            if (tarefa == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tarefa);
         }
 
         [HttpPost]
-        public ToDoModel Post([FromBody] ToDoModel model)
+        public IActionResult Post([FromBody] ToDoModel model)
         {
             _appDbContext.ToDos.Add(model);
             _appDbContext.SaveChanges();
-            return model;
+
+            return Created($"/{model.Id}", model);
         }
 
         [HttpPut("{id:int}")]
-        public ToDoModel Put([FromRoute] int id, [FromBody] ToDoModel ToDo)
+        public IActionResult Put([FromRoute] int id, [FromBody] ToDoModel ToDo)
         {
             var toDo = _appDbContext.ToDos.FirstOrDefault(x => x.Id == id);
 
             if (toDo == null)
             {
-                return toDo;
+                return NotFound();
             }
 
             toDo.Title = ToDo.Title;
@@ -48,16 +60,22 @@ namespace ToDo.Controllers
             _appDbContext.ToDos.Update(toDo);
             _appDbContext.SaveChanges();
 
-            return toDo;
+            return Ok(toDo);
         }
 
         [HttpDelete("{id:int}")]
-        public ToDoModel Delete([FromRoute] int id)
+        public IActionResult Delete([FromRoute] int id)
         {
             var model = _appDbContext.ToDos.FirstOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
             _appDbContext.ToDos.Remove(model);
             _appDbContext.SaveChanges();
-            return model;
+
+            return Ok(model);
         }
     }
 }
