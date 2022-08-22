@@ -7,6 +7,8 @@ namespace ToDo.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet]
+        //[HttpGet("/banana")] Não precisa de [Route]
+        //[Route("/banana")]
         public string Get()
         {
             return "Salve";
