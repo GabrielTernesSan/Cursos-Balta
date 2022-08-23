@@ -8,11 +8,11 @@ namespace PaymentContext.Tests
         [TestMethod]
         public void AdicionarAssinatura()
         {
-            var subscription = new Subscription(null);
-            var student = new Student("Gabriel", "Santos", "12345678910", "santos.tgabriel@gmail.com");
+            //var subscription = new Subscription(null);
+            //var student = new Student("Gabriel", "Santos", "12345678910", "santos.tgabriel@gmail.com");
             //student.FirstName = "";
             //student.Subscriptions.Add(subscription); Tá errado porque não "cancela" a outra subscription
-            student.AddSubscription(subscription);
+            //student.AddSubscription(subscription);
         }
     }
 }
