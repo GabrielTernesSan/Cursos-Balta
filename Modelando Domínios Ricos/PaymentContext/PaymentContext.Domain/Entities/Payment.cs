@@ -10,6 +10,8 @@
             Total = total;
             TotalPaid = totalPaid;
             Owner = owner;
+            // Melhor transformar estas propriedades em
+            // objetos para fazer reúso de validações
             Document = document;
             Address = address;
             Email = email;

@@ -8,12 +8,11 @@
         {
             FirstName = firstName;
             LastName = lastName;
+            // Melhor transformar estas propriedades em
+            // objetos para fazer reúso de validações
             Document = document;
             Email = email;
             _subscriptions = new List<Subscription>();
-            // if(firstName.Length == 0){
-            //     throw new Exception("Nome não pode ser nulo");
-            // }
         }
 
         public string FirstName { get; private set; }
@@ -21,14 +20,10 @@
         public string Document { get; private set; }
         public string Email { get; private set; }
         public string Address { get; private set; }
-        //public List<Subscription> Subscriptions { get; set; }
         public IReadOnlyCollection<Subscription> Subscriptions { get { return _subscriptions.ToArray(); } }
 
         public void AddSubscription(Subscription subscription)
         {
-            // Se já tiver uma assinatura ativa, cancela
-
-            // Cancela todas as outras assinaturas, e coloca essa como principal
             foreach (var sub in Subscriptions)
             {
                 sub.Activate();
