@@ -1,4 +1,5 @@
 using PaymentContext.Domain.Entities;
+using PaymentContext.Domain.ValueObjects;
 
 namespace PaymentContext.Tests
 {
@@ -8,11 +9,11 @@ namespace PaymentContext.Tests
         [TestMethod]
         public void AdicionarAssinatura()
         {
-            //var subscription = new Subscription(null);
-            //var student = new Student("Gabriel", "Santos", "12345678910", "santos.tgabriel@gmail.com");
-            //student.FirstName = "";
-            //student.Subscriptions.Add(subscription); Tá errado porque não "cancela" a outra subscription
-            //student.AddSubscription(subscription);
+            var name = new Name("Teste", "Teste");
+
+            // foreach(var not in name.Notifications){
+            //     not.Message;
+            // }
         }
     }
 }
