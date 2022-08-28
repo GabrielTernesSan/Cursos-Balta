@@ -49,9 +49,13 @@ namespace Blog.Controllers
 
                 return Created($"v1/categories/{model.Id}", model);
             }
+            catch (DbUpdateException e)
+            {
+                return StatusCode(500, $"05XE9 - Não foi possível incluir a categoria \n {e.Message}");
+            }
             catch (Exception ex)
             {
-                return BadRequest($"Verifique os dados e tente novamente! \n {ex.Message}");
+                return StatusCode(500, $"05X10 - Erro interno no servidor \n {ex.Message}");
             }
         }
 
