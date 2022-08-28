@@ -1,5 +1,6 @@
 ﻿using Blog.Data;
 using Blog.Models;
+using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,14 +41,22 @@ namespace Blog.Controllers
         }
 
         [HttpPost("v1/categories")]
-        public async Task<IActionResult> PostAsync([FromBody] Category model)
+        public async Task<IActionResult> PostAsync([FromBody] CreateCategoryViewModel model)
         {
             try
             {
-                await _context.Categories.AddAsync(model);
+                var category = new Category
+                {
+                    Id = 0,
+                    Posts = null,
+                    Name = model.Name,
+                    Slug = model.Slug
+                };
+
+                await _context.Categories.AddAsync(category);
                 await _context.SaveChangesAsync();
 
-                return Created($"v1/categories/{model.Id}", model);
+                return Created($"v1/categories/{category.Id}", category);
             }
             catch (DbUpdateException e)
             {
