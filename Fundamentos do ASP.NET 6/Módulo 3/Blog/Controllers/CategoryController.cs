@@ -72,7 +72,7 @@ namespace Blog.Controllers
                 await _context.Categories.AddAsync(category);
                 await _context.SaveChangesAsync();
 
-                return Created($"v1/categories/{category.Id}", category);
+                return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e)
             {
@@ -93,21 +93,24 @@ namespace Blog.Controllers
                     .Categories
                     .FirstOrDefaultAsync(x => x.Id == id);
 
+                if (category == null)
+                    return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado!"));
+
                 category.Name = model.Name;
                 category.Slug = model.Slug;
 
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
 
-                return Ok(model);
+                return Ok(new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e)
             {
-                return StatusCode(500, $"05XE8 - Não foi possível alterar a categoria \n {e.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05XE8 - Não foi possível alterar a categoria \n {e.Message}"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"05X11 - Erro interno no servidor \n {ex.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05X11 - Erro interno no servidor \n {ex.Message}"));
             }
         }
 
@@ -120,18 +123,21 @@ namespace Blog.Controllers
                     .Categories
                     .FirstOrDefaultAsync(x => x.Id == id);
 
+                if (category == null)
+                    return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado!"));
+
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
 
-                return Ok(category);
+                return Ok(new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e)
             {
-                return StatusCode(500, $"05XE7 - Não foi possível excluir a categoria \n {e.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05XE7 - Não foi possível excluir a categoria \n {e.Message}"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"05X12 - Erro interno no servidor \n {ex.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05X12 - Erro interno no servidor \n {ex.Message}"));
             }
         }
 
