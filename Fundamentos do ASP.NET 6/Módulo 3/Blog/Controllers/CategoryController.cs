@@ -40,10 +40,14 @@ namespace Blog.Controllers
                     .Categories
                     .FirstOrDefaultAsync(x => x.Id == id);
 
-                return Ok(category);
-            }catch(Exception ex)
+                if (category == null)
+                    return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado!"));
+
+                return Ok(new ResultViewModel<Category>(category));
+            }
+            catch
             {
-                return NotFound($"Id não encontrado! \n {ex.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05X05 - Erro interno no servidor "));
             }
         }
 
