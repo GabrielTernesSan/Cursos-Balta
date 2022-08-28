@@ -43,6 +43,10 @@ namespace Blog.Controllers
         [HttpPost("v1/categories")]
         public async Task<IActionResult> PostAsync([FromBody] EditorCategoryViewModel model)
         {
+            // Valida
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var category = new Category
