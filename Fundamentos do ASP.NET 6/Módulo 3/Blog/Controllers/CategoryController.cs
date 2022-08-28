@@ -20,8 +20,15 @@ namespace Blog.Controllers
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync()
         {
-            var categories = await _context.Categories.ToListAsync();
-            return Ok(categories);
+            try
+            {
+                var categories = await _context.Categories.ToListAsync();
+                return Ok(new ResultViewModel<List<Category>>(categories));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<List<Category>>($"05X04 - Erro interno no servidor "));
+            }
         }
 
         [HttpGet("v1/categories/{id:int}")]
