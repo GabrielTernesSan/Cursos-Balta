@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Blog.Controllers
 {
     [ApiController]
+    [Route("[controller]")]
     public class CategoryController : ControllerBase
     {
         private readonly BlogDataContext _context;
 
-        public CategoryController(BlogDataContext context)
+        public CategoryController([FromServices] BlogDataContext context)
         {
             _context = context;
         }
@@ -54,7 +55,7 @@ namespace Blog.Controllers
             }
         }
 
-        [HttpPut("v1/categories/{int:id}")]
+        [HttpPut("v1/categories/{id:int}")]
         public async Task<IActionResult> PutAsync([FromRoute] int id, [FromBody] Category model)
         {
             try
