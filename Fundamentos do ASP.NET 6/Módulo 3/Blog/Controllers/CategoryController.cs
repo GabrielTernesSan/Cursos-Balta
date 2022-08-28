@@ -1,22 +1,23 @@
 ﻿using Blog.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Controllers
 {
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        [HttpGet("v1/categories")]
-        public IActionResult Get(BlogDataContext context)
+        private readonly BlogDataContext _context;
+
+        public CategoryController(BlogDataContext context)
         {
-            var categories = context.Categories.ToList();
-            return Ok(categories);
+            _context = context;
         }
 
-        [HttpGet("v2/categories")]
-        public IActionResult Get2(BlogDataContext context)
+        [HttpGet("v1/categories")]
+        public async Task<IActionResult> GetAsync()
         {
-            var categories = context.Categories.ToList();
+            var categories = await _context.Categories.ToListAsync();
             return Ok(categories);
         }
     }
