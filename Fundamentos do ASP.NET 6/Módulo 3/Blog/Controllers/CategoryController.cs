@@ -1,4 +1,5 @@
 ﻿using Blog.Data;
+using Blog.Extensions;
 using Blog.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -55,8 +56,8 @@ namespace Blog.Controllers
         public async Task<IActionResult> PostAsync([FromBody] EditorCategoryViewModel model)
         {
             // Valida
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -75,11 +76,11 @@ namespace Blog.Controllers
             }
             catch (DbUpdateException e)
             {
-                return StatusCode(500, $"05XE9 - Não foi possível incluir a categoria \n {e.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05XE9 - Não foi possível incluir a categoria \n {e.Message}"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"05X10 - Erro interno no servidor \n {ex.Message}");
+                return StatusCode(500, new ResultViewModel<Category>($"05X10 - Erro interno no servidor \n {ex.Message}"));
             }
         }
 
