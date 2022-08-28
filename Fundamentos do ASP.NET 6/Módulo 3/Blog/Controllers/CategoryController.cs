@@ -76,9 +76,13 @@ namespace Blog.Controllers
 
                 return Ok(model);
             }
+            catch (DbUpdateException e)
+            {
+                return StatusCode(500, $"05XE8 - Não foi possível alterar a categoria \n {e.Message}");
+            }
             catch (Exception ex)
             {
-                return BadRequest($"Verifique os dados e tente novamente! \n {ex.Message}");
+                return StatusCode(500, $"05X11 - Erro interno no servidor \n {ex.Message}");
             }
         }
 
@@ -96,9 +100,13 @@ namespace Blog.Controllers
 
                 return Ok(category);
             }
+            catch (DbUpdateException e)
+            {
+                return StatusCode(500, $"05XE7 - Não foi possível excluir a categoria \n {e.Message}");
+            }
             catch (Exception ex)
             {
-                return NotFound($"Id não encontrado! \n {ex.Message}");
+                return StatusCode(500, $"05X12 - Erro interno no servidor \n {ex.Message}");
             }
         }
 
