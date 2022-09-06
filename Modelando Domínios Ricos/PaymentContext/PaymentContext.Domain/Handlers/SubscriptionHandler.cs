@@ -56,8 +56,8 @@ namespace PaymentContext.Domain.Handlers
                 command.ExpireDate,
                 command.Total,
                 command.TotalPaid,
-                command.Owner,
-                new Document(command.PayerDocument, command.PayesDocumentType),
+                command.Payer,
+                new Document(command.PayerDocument, command.PayerDocumentType),
                 address,
                 email
             );
@@ -68,6 +68,10 @@ namespace PaymentContext.Domain.Handlers
 
             // Agrupar as validações
             AddNotifications(name, document, email, address, student, subscription, payment);
+
+            // Checar as notificações
+            if (!IsValid)
+                return new CommandResult(false, "Não foi possível realizar sua assinatura");
 
             // Salvar as informações
             _repository.CreateSubscription(student);
