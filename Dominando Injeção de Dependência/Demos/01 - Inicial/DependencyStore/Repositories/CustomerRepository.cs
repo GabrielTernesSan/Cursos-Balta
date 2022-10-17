@@ -1,10 +1,11 @@
 using Dapper;
 using DependencyStore.Models;
+using DependencyStore.Repositories.Contracts;
 using Microsoft.Data.SqlClient;
 
 namespace DependencyStore.Repositories;
 
-public class CustumerRepository
+public class CustumerRepository : ICustomerRepository
 {
     // É uma boa prática nomear variáveis privadas com "_"
     // Usamos "readonly" possibilitar que a variável seja atribuida dentro do construtor e somente dentro dele,
