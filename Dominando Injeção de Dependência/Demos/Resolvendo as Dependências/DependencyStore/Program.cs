@@ -3,15 +3,19 @@ using DependencyStore.Repositories;
 using DependencyStore.Services.Contracts;
 using DependencyStore.Services;
 using Microsoft.Data.SqlClient;
+using DependencyStore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// O AddSingleton instância uma depenência uma única vez ao rodar a aplicação
+// geralmente usado para definir configurações do sistema
+builder.Services.AddSingleton<Configuration>();
 
 /* 
     Preciso resolver o SqlConnection também, porém se usar Transient toda vez que passar pelo construtor ele cria 
     uma nova conexão. O ideal é criarmos a menor quantidade de conexões possíveis, por isso, usamos o AddScoped
     que cria uma conexão por requisição
 */
-
 builder.Services.AddScoped<SqlConnection>(x
     => new SqlConnection("CONN_STRING")
 );
