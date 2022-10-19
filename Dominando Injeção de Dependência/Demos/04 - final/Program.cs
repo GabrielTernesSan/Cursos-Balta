@@ -1,13 +1,15 @@
 using DependencyInjectionLifetimeSample.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddTransient<IService, PrimaryService>();
-
+builder.Services.TryAddTransient<IService, PrimaryService>();
+builder.Services.TryAddTransient<IService, PrimaryService>();
+builder.Services.TryAddTransient<IService, SecondaryService>();
 
 var app = builder.Build();
 
-app.MapGet("/", (IService services)
-    => Results.Ok(services.GetType().Name));
+app.MapGet("/", (IEnumerable<IService> services)
+    => Results.Ok(services.Select(x => x.GetType().Name)));
 
 app.Run();
 
