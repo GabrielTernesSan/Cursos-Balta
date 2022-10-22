@@ -54,3 +54,20 @@ using (var scope = app.Services.CreatScope()) // Garante que os serviços da apl
 }
 `````
 
+### Via HttpContext
+
+- Podemos "recuperar" os serviços registrados utilizando o `HttpContext`
+
+````c#
+public async Task OnActionExecutionAsync(
+		ActionExecutingContext context,
+		ActionExecutionDelegate next)
+{
+    var service = context
+        .HttpContext
+        .RequestServices
+        .GetService<IWatherService>();
+    
+    var forecasts = service.Get();
+}
+````
