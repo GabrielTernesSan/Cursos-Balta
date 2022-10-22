@@ -40,3 +40,17 @@ O readonly ela vai poder ser inicializada no construtor, somente nele.
       => service.Get();
   ````
 
+### No Progam.cs
+
+`````c#
+var app = builder.Build();
+// Tem que acontecer da linha "var app" para baixo
+using (var scope = app.Services.CreatScope()) // Garante que os serviços da aplicação já estão registrados
+{
+    var services = scope.ServiceProvider; // Item que fornece o serviço para nós. Dado uma interface ele retorna o serviço. Traz todos os serviços registrados
+    
+    var repository = services.GetRequiredService<ICustomerRepository>(); // Pega a instância de um serviço registrado services.GetRequiredService<(interface)>()
+    repository.CreateAsync(new Customer("Gabriel"));
+}
+`````
+
