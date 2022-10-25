@@ -16,8 +16,8 @@ builder.Services.AddAuthentication(x =>
 {
     x.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuerSigningKey = true, // Validar chave de assinatura? true
+        IssuerSigningKey = new SymmetricSecurityKey(key), // Como validar? Nova chave simétrica
         ValidateIssuer = false,
         ValidateAudience = false
     };
