@@ -37,6 +37,12 @@ namespace Blog.Controllers
                 Slug = model.Email.Replace("@", "-").Replace(".", "-")
             };
 
+            // Gero uma senha forte
+            // G2B257X&D%1HF9B8!FB@M1}^5
+
+            // Armazenar as senhas
+            // Encriptar a senha
+
             return Ok(user);
         }
 
