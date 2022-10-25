@@ -21,6 +21,9 @@ namespace Blog.Controllers
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync()
         {
+            //User.Identity.IsAuthenticated
+            //User.Identity.Name
+            //User.IsInRole("admin");
             try
             {
                 var categories = await _context.Categories.ToListAsync();
