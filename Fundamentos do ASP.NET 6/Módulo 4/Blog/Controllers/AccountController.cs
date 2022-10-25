@@ -4,6 +4,8 @@ using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SecureIdentity.Password;
 
 namespace Blog.Controllers
 {
@@ -37,13 +39,27 @@ namespace Blog.Controllers
                 Slug = model.Email.Replace("@", "-").Replace(".", "-")
             };
 
-            // Gero uma senha forte
-            // G2B257X&D%1HF9B8!FB@M1}^5
+            var password = PasswordGenerator.Generate(25, true, false);
+            user.PasswordHash = PasswordHasher.Hash(password);
 
-            // Armazenar as senhas
-            // Encriptar a senha
+            try
+            {
+                await context.AddAsync(user);
+                await context.SaveChangesAsync();
 
-            return Ok(user);
+                return Ok(new ResultViewModel<dynamic>(new
+                {
+                    user = user.Email, password
+                }));
+            }
+            catch(DbUpdateException)
+            {
+                return StatusCode(400, new ResultViewModel<string>("05X99 - Este E-mail já está cadastrado"));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<string>("05X04 - Falha interna no servidor"));
+            }
         }
 
         [HttpPost("v1/accounts/login")]
