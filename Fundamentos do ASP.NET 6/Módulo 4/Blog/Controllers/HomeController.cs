@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
@@ -7,13 +8,11 @@ namespace Blog.Controllers
     public class HomeController : ControllerBase
     {
         // Health Check
-        [HttpGet]
+        [HttpGet("")]
+        //[ApiKey]
         public IActionResult Get()
         {
-            return Ok(new
-            {
-                status = "Online"
-            });
+            return Ok();
         }
     }
 }
