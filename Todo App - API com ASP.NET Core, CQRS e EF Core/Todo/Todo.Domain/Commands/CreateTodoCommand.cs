@@ -1,8 +1,9 @@
-﻿using Todo.Domain.Commands.Contracts;
+﻿using Flunt.Notifications;
+using Todo.Domain.Commands.Contracts;
 
 namespace Todo.Domain.Commands
 {
-    public class CreateTodoCommand : ICommand
+    public class CreateTodoCommand : Notifiable<Notification>, ICommand
     {
         public CreateTodoCommand(){}
 
@@ -19,7 +20,12 @@ namespace Todo.Domain.Commands
 
         public void Validate()
         {
-            throw new NotImplementedException();
+            if(Title.Length < 4)
+            {
+                //AddNotification("title", "Titulo inválido");
+
+                //return IsValid;
+            }
         }
     }
 }
