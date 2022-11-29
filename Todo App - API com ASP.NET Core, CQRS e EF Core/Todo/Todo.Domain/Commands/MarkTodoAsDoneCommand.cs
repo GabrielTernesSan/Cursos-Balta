@@ -4,7 +4,7 @@ using Todo.Domain.Commands.Contracts;
 
 namespace Todo.Domain.Commands
 {
-    public class MarkTodoAsDoneCommand : Notifiable<Notification>, ICommand
+    public class MarkTodoAsDoneCommand : Notifiable, ICommand
     {
 
         public MarkTodoAsDoneCommand() { }
@@ -21,9 +21,9 @@ namespace Todo.Domain.Commands
         public void Validate()
         {
             AddNotifications(
-                new Contract<MarkTodoAsDoneCommand>()
+                new Contract()
                 .Requires()
-                .IsGreaterOrEqualsThan(User, 6, "User", "Usuário inválido!")
+                .HasLen(User, 6, "User", "Usuário inválido!")
                 );
         }
     }
