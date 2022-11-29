@@ -1,5 +1,6 @@
 using Blog;
 using Blog.Data;
+using Blog.Hubs;
 using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -32,11 +33,14 @@ builder.Services
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<BlogDataContext>();
 builder.Services.AddTransient<TokenService>();
 
 var app = builder.Build();
+
+app.MapHub<ChatHub>("/chat");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

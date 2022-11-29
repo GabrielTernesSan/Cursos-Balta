@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog", "Blog.csproj", "{FEDB1C63-31DA-4E5A-A641-6B54370600A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRClientConsole", "..\SignalRClientConsole\SignalRClientConsole.csproj", "{97EAA6E0-2BA6-4290-8F76-B68B83FC18EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FEDB1C63-31DA-4E5A-A641-6B54370600A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEDB1C63-31DA-4E5A-A641-6B54370600A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEDB1C63-31DA-4E5A-A641-6B54370600A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97EAA6E0-2BA6-4290-8F76-B68B83FC18EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97EAA6E0-2BA6-4290-8F76-B68B83FC18EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97EAA6E0-2BA6-4290-8F76-B68B83FC18EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97EAA6E0-2BA6-4290-8F76-B68B83FC18EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
