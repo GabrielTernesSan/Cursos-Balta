@@ -1,4 +1,8 @@
-﻿namespace Todo.Domain.Tests.HandlerTests
+﻿using Todo.Domain.Commands;
+using Todo.Domain.Handler;
+using Todo.Domain.Tests.Repositories;
+
+namespace Todo.Domain.Tests.HandlerTests
 {
     [TestClass]
     public class CreateTodoHandlerTests
@@ -6,6 +10,8 @@
         [TestMethod]
         public void Dado_um_comando_invalido_deve_interromper_a_execucao()
         {
+            var command = new CreateTodoCommand("", "", DateTime.Now);
+            var handler = new TodoHandler(new FakeTodoRepository());
             Assert.Fail();
         }
 
