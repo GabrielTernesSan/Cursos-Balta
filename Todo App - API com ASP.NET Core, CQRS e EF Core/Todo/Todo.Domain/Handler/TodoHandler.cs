@@ -7,7 +7,7 @@ using static Todo.Domain.Handler.Contracts.IHandler;
 
 namespace Todo.Domain.Handler
 {
-    public class TodoHandler : Notifiable, IHandler<CreateTodoCommand>
+    public class TodoHandler : Notifiable, IHandler<CreateTodoCommand>, IHandler<UpdateTodoCommand>
     {
 
         private readonly ITodoRepository _repository;
@@ -35,6 +35,31 @@ namespace Todo.Domain.Handler
             // Salva no banco
             _repository.Create(todo);
 
+            return new GenericCommandResult(true, "Tarefa salva", todo);
+        }
+
+        public ICommandResult Handle(UpdateTodoCommand command)
+        {
+            // Fail Fast Validation
+            command.Validate();
+            if (command.Invalid)
+            {
+                return new GenericCommandResult(
+                    false,
+                    "Ops, parece que sua tarefa está errada",
+                    command.Notifications);
+            }
+
+            // Recupera o TodoItem (Reidratação)
+            var todo = _repository.GetById(command.Id, command.User);
+
+            // Altera o titulo
+            todo.UpdateTitle(command.Title);
+
+            // Salva no banco
+            _repository.Update(todo);
+            
+            // Retorna o resultado
             return new GenericCommandResult(true, "Tarefa salva", todo);
         }
     }
