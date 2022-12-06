@@ -1,15 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
+using Todo.Domain.Infra.Contexts;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<DataContext>(optional => optional.UseInMemoryDatabase("Database"));
+//builder.Services.AddDbContext<DataContext>(optional => optional.UseSqlServer(Configuration.GetConnectionString("connectionString"));
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
