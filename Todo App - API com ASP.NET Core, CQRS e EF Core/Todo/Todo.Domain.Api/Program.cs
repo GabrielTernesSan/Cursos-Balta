@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
+using Todo.Domain.Handler;
 using Todo.Domain.Infra.Contexts;
+using Todo.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(optional => optional.UseInMemoryDatabase("Database"));
 //builder.Services.AddDbContext<DataContext>(optional => optional.UseSqlServer(Configuration.GetConnectionString("connectionString"));
+
+builder.Services.AddTransient<ITodoRepository, TodoRepository>();
+builder.Services.AddTransient<TodoHandler, TodoHandler>();
 
 var app = builder.Build();
 
