@@ -7,6 +7,9 @@ using Todo.Domain.Repositories;
 
 namespace Todo.Domain.Api.Controllers
 {
+
+    // PARA FUNCIONAR PRECISA GERAR UM TOKEN
+
     [ApiController]
     [Route("v1/todos")]
     [Authorize]
