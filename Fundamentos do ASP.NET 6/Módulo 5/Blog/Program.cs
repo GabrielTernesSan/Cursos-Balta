@@ -22,6 +22,7 @@ builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<BlogDataContext>();
 builder.Services.AddTransient<TokenService>();
+builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 
