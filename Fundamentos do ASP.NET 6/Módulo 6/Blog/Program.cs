@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigureAuthentication(builder);
 
+builder.Services.AddMemoryCache();
 builder.Services
     .AddControllers()
     .ConfigureApiBehaviorOptions(options =>

@@ -5,6 +5,7 @@ using Blog.ViewModels;
 using Blog.ViewModels.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Blog.Controllers
 {
@@ -20,20 +21,31 @@ namespace Blog.Controllers
         }
 
         [HttpGet("v1/categories")]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync(
+            [FromServices] IMemoryCache cache)
         {
             //User.Identity.IsAuthenticated
             //User.Identity.Name
             //User.IsInRole("admin");
             try
             {
-                var categories = await _context.Categories.ToListAsync();
+                var categories = await cache.GetOrCreate("CategoriesCache", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                    return GetCategoriesAsync();
+                });
+
                 return Ok(new ResultViewModel<List<Category>>(categories));
             }
             catch
             {
                 return StatusCode(500, new ResultViewModel<List<Category>>($"05X04 - Erro interno no servidor "));
             }
+        }
+
+        private async Task<List<Category>> GetCategoriesAsync()
+        {
+            return await _context.Categories.ToListAsync();
         }
 
         [HttpGet("v1/categories/{id:int}")]
