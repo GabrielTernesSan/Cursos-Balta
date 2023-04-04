@@ -1,4 +1,6 @@
-﻿namespace Blog.Models
+using System.Text.Json.Serialization;
+
+namespace Blog.Models
 {
     public class Category
     {
@@ -6,6 +8,7 @@
         public string Name { get; set; }
         public string Slug { get; set; }
 
-        public IList<Post> Posts { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public List<Post> Posts { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Blog.Models
+using System;
+using System.Collections.Generic;
+
+namespace Blog.Models
 {
     public class Post
     {
@@ -12,8 +15,6 @@
         public Category Category { get; set; }
         public User Author { get; set; }
 
-        // Modificador de acesso que permite que seja sobreescrito
-        //public virtual List<Tag> Tags { get; set; }
         public List<Tag> Tags { get; set; }
     }
 }

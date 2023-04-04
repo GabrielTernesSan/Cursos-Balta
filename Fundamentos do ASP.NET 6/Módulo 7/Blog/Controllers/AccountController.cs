@@ -1,68 +1,54 @@
-﻿using Blog.Data;
+using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Blog.Data;
 using Blog.Extensions;
 using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
 using Blog.ViewModels.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
-using System.Text.RegularExpressions;
 
 namespace Blog.Controllers
 {
-    //[Authorize]
     [ApiController]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
-
-        private readonly TokenService _tokenService;
-
-        public AccountController(TokenService tokenService)
-        {
-            _tokenService = tokenService;
-        }
-
-        //[AllowAnonymous]
         [HttpPost("v1/accounts/")]
         public async Task<IActionResult> Post(
             [FromBody] RegisterViewModel model,
-            [FromServices] EmailService emailService,
-            [FromServices] BlogDataContext context)
+            [FromServices] BlogDataContext context,
+            [FromServices] EmailService emailService)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-            }
 
             var user = new User
             {
-                Name = model.Nome,
+                Name = model.Name,
                 Email = model.Email,
                 Slug = model.Email.Replace("@", "-").Replace(".", "-")
             };
 
-            var password = PasswordGenerator.Generate(25, true, false);
-            user.PasswordHash = PasswordHasher.Hash(password);
+            var password = PasswordGenerator.Generate(25);
+            user.PasswordHash = PasswordHasher<>.Hash(password);
 
             try
             {
-                await context.AddAsync(user);
+                await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
 
-                emailService.Send(
-                    user.Name, 
-                    user.Email, 
-                    "Bem vindo ao blog!", 
-                    $"Sua senha é {password}");
-
+                emailService.Send(user.Name, user.Email, "Bem vindo ao blog!", $"Sua senha é {password}");
                 return Ok(new ResultViewModel<dynamic>(new
                 {
-                    user = user.Email
+                    user = user.Email, password
                 }));
             }
-            catch(DbUpdateException)
+            catch (DbUpdateException)
             {
                 return StatusCode(400, new ResultViewModel<string>("05X99 - Este E-mail já está cadastrado"));
             }
@@ -79,24 +65,19 @@ namespace Blog.Controllers
             [FromServices] TokenService tokenService)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-            }
-            
-            var user = await context.Users
+
+            var user = await context
+                .Users
                 .AsNoTracking()
                 .Include(x => x.Roles)
                 .FirstOrDefaultAsync(x => x.Email == model.Email);
 
-            if(user == null)
-            {
-                return StatusCode(400, new ResultViewModel<string>("Usuário ou senha inválida"));
-            }
+            if (user == null)
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
 
-            if(!PasswordHasher.Verify(user.PasswordHash, model.Password))
-            {
-                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválida"));
-            }
+            if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
 
             try
             {
@@ -115,7 +96,7 @@ namespace Blog.Controllers
             [FromBody] UploadImageViewModel model,
             [FromServices] BlogDataContext context)
         {
-            var fileName = $"{Guid.NewGuid().ToString()}.jgp";
+            var fileName = $"{Guid.NewGuid().ToString()}.jpg";
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(model.Base64Image, "");
             var bytes = Convert.FromBase64String(data);
 
@@ -129,8 +110,8 @@ namespace Blog.Controllers
             }
 
             var user = await context
-            .Users
-            .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+                .Users
+                .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
             if (user == null)
                 return NotFound(new ResultViewModel<Category>("Usuário não encontrado"));

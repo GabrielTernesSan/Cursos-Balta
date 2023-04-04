@@ -2,18 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Blog.Mappings
+namespace Blog.Data.Mappings
 {
     public class CategoryMap : IEntityTypeConfiguration<Category>
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            // Tabela 
+            // Tabela
             builder.ToTable("Category");
 
-            // Chave primária
+            // Chave Primária
             builder.HasKey(x => x.Id);
 
+            // Identity
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn();
@@ -32,7 +33,8 @@ namespace Blog.Mappings
                 .HasMaxLength(80);
 
             // Índices
-            builder.HasIndex(x => x.Slug, "IX_Category_Slug")
+            builder
+                .HasIndex(x => x.Slug, "IX_Category_Slug")
                 .IsUnique();
         }
     }

@@ -1,42 +1,39 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Mail;
 
-namespace Blog.Services
+namespace Blog.Services;
+
+public class EmailService
 {
-    public class EmailService
+    public bool Send(
+        string toName,
+        string toEmail,
+        string subject,
+        string body,
+        string fromName = "Equipe balta.io",
+        string fromEmail = "email@balta.io")
     {
-        public bool Send(
-            string toName,
-            string toEmail,
-            string subject,
-            string body,
-            string fromName = "Equipe Balta.io",
-            string fromEmail = "santos.tgabriel14@gmail.com"
-            )
+        var smtpClient = new SmtpClient(Configuration.Smtp.Host, Configuration.Smtp.Port);
+
+        smtpClient.Credentials = new NetworkCredential(Configuration.Smtp.UserName, Configuration.Smtp.Password);
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtpClient.EnableSsl = true;
+        var mail = new MailMessage();
+
+        mail.From = new MailAddress(fromEmail, fromName);
+        mail.To.Add(new MailAddress(toEmail, toName));
+        mail.Subject = subject;
+        mail.Body = body;
+        mail.IsBodyHtml = true;
+
+        try
         {
-            var smtpClient = new SmtpClient(Configuration.Smtp.Host, Configuration.Smtp.Port);
-
-            smtpClient.Credentials = new NetworkCredential(Configuration.Smtp.UserName, Configuration.Smtp.Password);
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = true;
-
-            var mail = new MailMessage();
-
-            mail.From = new MailAddress(fromEmail, fromName);
-            mail.To.Add(new MailAddress(toEmail, toName));
-            mail.Subject = subject;
-            mail.Body = body;
-            mail.IsBodyHtml = true;
-
-            try
-            {
-                smtpClient.Send(mail);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            smtpClient.Send(mail);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
         }
     }
 }
