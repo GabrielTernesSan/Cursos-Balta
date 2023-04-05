@@ -38,6 +38,9 @@ builder.Services
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
     });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BlogDataContext>(options => options.UseSqlServer(connectionString));
 
@@ -58,7 +61,8 @@ app.MapControllers();
 
 if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine("Estou em ambiente de desenvolvimento");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 //if (app.Environment.IsProduction())
