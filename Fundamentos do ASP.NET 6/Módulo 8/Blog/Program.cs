@@ -3,6 +3,7 @@ using Blog.Data;
 using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IO.Compression;
 using System.Text;
@@ -41,7 +42,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
-builder.Services.AddDbContext<BlogDataContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<BlogDataContext>(options => options.UseSqlServer(connectionString));
+
 builder.Services.AddTransient<TokenService>();
 builder.Services.AddTransient<EmailService>();
 
@@ -56,10 +59,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseAuthentication();
-app.UseResponseCompression();
 app.UseAuthorization();
+app.UseStaticFiles();
+app.UseResponseCompression();
 
 app.MapControllers();
 
