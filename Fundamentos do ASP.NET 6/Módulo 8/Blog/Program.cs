@@ -63,6 +63,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+if (app.Environment.IsDevelopment())
+{
+    Console.WriteLine("Estou em ambiente de desenvolvimento");
+}
+
+//if (app.Environment.IsProduction())
+//{
+//    Console.WriteLine("Estou em ambiente de produção");
+//}
+
 app.Run();
 
 void LoadConfiguration(WebApplication app)
